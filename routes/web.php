@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PublicationController;
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -55,3 +56,5 @@ Route::controller(PublicationController::class)->group(function () {
     Route::get('/publication/list', 'getPublicationsByDate');
     Route::get('/show/publication/{id_user}', 'show');
 });
+
+Route::resource('/article', ArticleController::class);
