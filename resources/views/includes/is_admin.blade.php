@@ -1,5 +1,5 @@
 <div class="container" style="margin-right: -70%; margin-top: 8%">
-    @include('includes.admin_profile');
+    @include('includes.admin_profile')
 </div>
 
 <li class="dropdown"><a href="#" data-toggle="dropdown"

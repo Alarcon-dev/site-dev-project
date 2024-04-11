@@ -1,11 +1,12 @@
 @extends('layouts.master')
 @section('content')
     <div class="section">
+        {{-- // $user = Auth::user();
+            // $publications = $user->publications;
+            // $publications = App\Models\Publication::getAll(); --}}
 
-        @php
-            $publications = App\Models\Publication::getAll();
-        @endphp
         @if (Auth::user() !== null && $publications->count() > 0)
+            {{-- @if ($publications->count() > 0) --}}
             @include('includes.alerts')
             @foreach ($publications as $publication)
                 <div class="row justify-content-center">
@@ -42,7 +43,6 @@
                                 @if ($publication->public_image !== null)
                                     @php
                                         $imageNames = json_decode($publication->public_image);
-
                                     @endphp
 
                                     <div class="container p_img_container">
@@ -70,10 +70,7 @@
                                                     <span class="sr-only">Next</span>
                                                 </a>
                                             </div>
-
-
                                         </div>
-
                                     </div>
                                 @endif
                             </div>
@@ -82,11 +79,13 @@
                                     <div class="code">{!! highlight_string($publication->public_content, true) !!}</div>
                                 </div>
                             </a>
+
                             <div class="sticky-bottom" style="padding: 2% 5%">
                                 <div class="row mt-5">
                                     <div class="col-md-4 justify-content-start">
-                                        <span
-                                            class="mr-3"><strong>Comentarios({{ count($publication->comments) }})</strong></span>
+                                        <span class="mr-3"><strong><a class="nav-link p-0"
+                                                    href="{{ route('comment.index') }}">Comentarios({{ count($publication->comments) }})</a>
+                                            </strong></span>
                                     </div>
                                     @if (Auth::user()->id_user === $publication->user_public_id)
                                         <div class="col-md-8 d-flex justify-content-end">
@@ -113,7 +112,29 @@
                                     @endrole
                                 </div>
                             </div>
+                            <div class="card-footer bg-whitesmoke">
+                                @if (isset($comments[$publication->id_publication]) && count($comments[$publication->id_publication]) > 0)
+                                    @forelse ($comments[$publication->id_publication] as $comentario)
+                                        <p>
+                                            <strong>{{ $comentario->user->user_name }}</strong>
+                                            </br>
+                                            {{ $comentario->comment_content }}
+                                            {{ $comentario->comment_image }}
+                                        </p>
+
+                                    @empty
+                                        <p>
+                                            No existen comentarios
+                                        </p>
+                                    @endforelse
+                                @else
+                                    <p>No existen comentarios</p>
+                                @endif
+                                @include('comments.create')
+                            </div>
                         </div>
+                    </div>
+                </div>
             @endforeach
         @else
             <div class="row justify-content-center" style="margin-top: 3%">
@@ -124,4 +145,5 @@
                 </div>
             </div>
         @endif
-    @endsection
+    </div>
+@endsection

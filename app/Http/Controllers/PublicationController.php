@@ -23,7 +23,9 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        //
+        $publications = Publication::all();
+
+        return view('publications.index', compact('publications'));
     }
 
     /**
@@ -56,7 +58,8 @@ class PublicationController extends Controller
         $publication->public_content  = $request->public_content;
 
 
-
+        // dd($request);
+        //hacer un foreach de las imanes ligadas la id de la publicacion, y que asi no sobre escribas las imagenes qeu hay con las que se van a añadir
 
         if ($request->hasFile('public_image')) {
 
@@ -64,7 +67,6 @@ class PublicationController extends Controller
                 if ($image->isValid()) {
                     $imageName = time() . '_' . $image->getClientOriginalName();
                     Storage::disk('publications')->put($imageName, file_get_contents($image));
-
                     $imageNames[] = $imageName;
                 }
             }
@@ -88,9 +90,14 @@ class PublicationController extends Controller
 
         $publications = Publication::where('user_public_id', $id)->get();
 
-        return view('publications.PublicationsByUser', compact('publications'));
-    }
+        $comments = [];
+        foreach($publications as $publication){
+            $comments[$publication->id_publication] = Comment::where('public_comment_id', $publication->id_publication)->get();
+        }
+        
+        return view('publications.PublicationsByUser', compact('publications', 'comments'));
 
+    }
     /**
      * Show the form for editing the specified resource.
      */
@@ -175,13 +182,14 @@ class PublicationController extends Controller
     public function getPublicationProfile($image_name)
     {
         $publication_profile = Storage::disk('user_profile')->get($image_name);
+        // $oublication_user = storage::disk()web
 
         return Response($publication_profile, 200);
     }
 
-    public function getAllPublications()
+    public function getAllPublications(string $id)
     {
-        $publications = Publication::all();
+        $publications = Publication::where('user_public_id', $id)->get();
 
         return $publications;
     }

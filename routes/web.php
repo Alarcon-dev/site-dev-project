@@ -3,6 +3,8 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -58,3 +60,5 @@ Route::controller(PublicationController::class)->group(function () {
 });
 
 Route::resource('/article', ArticleController::class);
+
+Route::resource('/comment', CommentController::class);

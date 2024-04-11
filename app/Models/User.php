@@ -75,4 +75,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class, 'user_categorie_id');
     }
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin'; // Suponiendo que el rol del administrador se almacena en un campo 'role' en tu tabla de usuarios
+    }
 }

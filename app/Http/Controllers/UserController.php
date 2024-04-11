@@ -139,4 +139,6 @@ class UserController extends Controller
         $file = Storage::disk('user_profile')->get($image_name);
         return Response($file, 200);
     }
+
+    
 }

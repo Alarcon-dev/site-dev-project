@@ -41,14 +41,11 @@
                                 @if ($publication->public_image !== null)
                                     @php
                                         $imageNames = json_decode($publication->public_image);
-
                                     @endphp
 
                                     <div class="container p_img_container">
                                         <div class="row justify-content-center">
-
                                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-
                                                 <div class="carousel-inner">
                                                     @foreach ($imageNames as $index => $imageName)
                                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
@@ -69,10 +66,7 @@
                                                     <span class="sr-only">Next</span>
                                                 </a>
                                             </div>
-
-
                                         </div>
-
                                     </div>
                                 @endif
                             </div>
@@ -85,8 +79,9 @@
                             <div class="sticky-bottom" style="padding: 2% 5%">
                                 <div class="row mt-5">
                                     <div class="col-md-4 justify-content-start">
-                                        <span
-                                            class="mr-3"><strong>Comentarios({{ count($publication->comments) }})</strong></span>
+                                        <span class="mr-3"><strong><a class="nav-link p-0"
+                                                    href="{{ route('comment.index') }}">Comentarios({{ count($publication->comments) }})</a>
+                                            </strong></span>
                                     </div>
                                     @if (Auth::user()->id_user === $publication->user_public_id)
                                         <div class="col-md-8 d-flex justify-content-end">
@@ -113,10 +108,110 @@
                                     @endrole
                                 </div>
                             </div>
+                            <div class="card-footer bg-whitesmoke">
+                                @if (isset($comments[$publication->id_publication]) && count($comments[$publication->id_publication]) > 0)
+                                    @forelse ($comments[$publication->id_publication] as $comentario)
+                                        <p>
+                                            <strong>{{ $comentario->user->user_name }}</strong>
+                                            </br>
+                                            {{ $comentario->comment_content }}
+
+
+                                            @if ($comentario->comment_image)
+                                                @php
+                                                    $images = json_decode($comentario->comment_image);
+                                                @endphp
+
+                                                @foreach ($images as $image)
+                                                    holis
+                                                    {{-- siguie apuentando a la carpeta public --}}
+                                                    <img src="{{ Storage::url('comment_image/' . $image) }}"
+                                                        alt="Imagen del comentario">
+                                                    {{-- <img src="{{ asset('storage/comment_image/<?= $image ?>')}}" alt="">
+                                                {{ asset('storage/comment_image/1712720635_66160afb3c295.png')}} --}}
+                                                @endforeach
+                                            @endif
+                                        </p>
+                                    @empty
+                                        <p>
+                                            No existen comentarios
+                                        </p>
+                                    @endforelse
+                                @else
+                                    <p>No existen comentarios</p>
+                                @endif
+                                <!-- Formulario de Comentarios -->
+                                <div class="row justify-content-center">
+                                    <div class="col-md-10">
+                                        <form method="POST" action="{{ route('comment.store') }}"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="hidden" name="publication_id"
+                                                value="{{ $publication->id_publication }}">
+
+
+                                            <div class="form-group row mb-4">
+                                                <input type="text"
+                                                    id="comment_content{{ $publication->id_publication }}"
+                                                    class="form-control col-10 @error('comment_content' . $publication->id_publication) is-invalid @enderror"
+                                                    name="comment_content" required>{{ old('comment_content') }}
+
+                                                @error('comment_content')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
+                                                <label for="files_{{ $publication->id_publication }}"
+                                                    class="btn btn-light col-2">
+                                                    <i class="fas fa-image fa-5x mr-2"></i>
+                                                </label>
+                                                <input type="file" id="files_{{ $publication->id_publication }}"
+                                                    name="comment_image[]" accept="image/*" multiple
+                                                    style="display: none;">
+                                                <div id="imagePreview_{{ $publication->id_publication }}"></div>
+                                            </div>
+                                            <script>
+                                                document.getElementById('files_{{ $publication->id_publication }}').addEventListener('change', function() {
+                                                    var imagePreview = document.getElementById('imagePreview_{{ $publication->id_publication }}');
+                                                    imagePreview.innerHTML = "";
+
+                                                    for (var i = 0; i < this.files.length; i++) {
+                                                        var file = this.files[i];
+
+                                                        if (!file.type.startsWith('image/')) {
+                                                            continue;
+                                                        }
+
+                                                        var reader = new FileReader();
+                                                        reader.onload = function(e) {
+                                                            var img = document.createElement('img');
+                                                            img.src = e.target.result;
+                                                            img.classList.add('img-thumbnail', 'mr-2', 'mb-2');
+                                                            img.style.maxWidth = '150px';
+                                                            imagePreview.appendChild(img);
+                                                        };
+                                                        reader.readAsDataURL(file);
+                                                    }
+                                                });
+                                            </script>
+                                            <div class="row mb-2">
+                                                <div class="col-md-7 offset-md-0">
+                                                    <button type="submit" class="btn btn-primary">
+                                                        {{ __('Crear comentario') }}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <!-- Fin del Formulario de Comentarios -->
+                            </div>
                         </div>
+                    </div>
+                </div>
             @endforeach
         @else
-            <div class="section">s
+            <div class="section">
                 <div class="row justify-content-center" style="margin-top: 3%">
                     <div class="container">
                         <div class="col-md-12">
@@ -126,4 +221,5 @@
                 </div>
             </div>
         @endif
-    @endsection
+    </div>
+@endsection
