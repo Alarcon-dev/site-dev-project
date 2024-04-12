@@ -17,6 +17,10 @@
         <a href="/user/edit/{{ Auth::user()->id_user }}" class="dropdown-item has-icon">
             <i class="fas fa-cog"></i> Actualizar datos
         </a>
+
+        <a href="{{ route('password.request') }}" class="dropdown-item has-icon">
+            <i class="fas fa-cog"></i> Cambiar contraseña
+        </a>
         {{-- <div class="dropdown-divider"></div> --}}
         <a href="{{ route('logout') }}" class="dropdown-item has-icon text-danger"
             onclick="event.preventDefault();

@@ -7,8 +7,8 @@
         @if (Auth::user() !== null && $publications->count() > 0)
             @include('includes.alerts')
             @foreach ($publications as $publication)
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-6 col-lg-10">
+                <div class="row justify-content-center mt-3">
+                    <div class="col-12 col-md-6 col-lg-12">
                         <div class="card card-publication mb-3 shadow" style="margin-top: 3%">
                             <div class="card-header mt-3 mb-3">
                                 <div class="col_md_6">
@@ -37,7 +37,7 @@
                                 </div>
                             </div>
 
-                            <div class="card-body">
+                            <div class="card-body" style="height: 95%; width:95%">
                                 @if ($publication->public_image !== null)
                                     @php
                                         $imageNames = json_decode($publication->public_image);
@@ -69,10 +69,7 @@
                                                     <span class="sr-only">Next</span>
                                                 </a>
                                             </div>
-
-
                                         </div>
-
                                     </div>
                                 @endif
                             </div>
@@ -116,7 +113,7 @@
                         </div>
             @endforeach
         @else
-            <div class="section">s
+            <div class="section">
                 <div class="row justify-content-center" style="margin-top: 3%">
                     <div class="container">
                         <div class="col-md-12">
