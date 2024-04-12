@@ -23,9 +23,9 @@ class PublicationController extends Controller
      */
     public function index()
     {
-        $publications = Publication::all();
+        // $publications = Publication::all();
 
-        return view('publications.index', compact('publications'));
+        // return view('publications.index', compact('publications'));
     }
 
     /**
@@ -182,13 +182,13 @@ class PublicationController extends Controller
     public function getPublicationProfile($image_name)
     {
         $publication_profile = Storage::disk('user_profile')->get($image_name);
-        // $oublication_user = storage::disk()web
 
         return Response($publication_profile, 200);
     }
 
     public function getAllPublications(string $id)
     {
+        //diferente en el develop
         $publications = Publication::where('user_public_id', $id)->get();
 
         return $publications;

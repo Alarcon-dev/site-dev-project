@@ -1,21 +1,26 @@
-<!-- create_comment.blade.php -->
-
-<div class="row justify-content-center">
+<div class="row justify-content-start">
     <div class="col-md-10">
         <form method="POST" action="{{ route('comment.store') }}" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="publication_id" value="{{ $publication->id_publication }}">
             <div class="form-group row mb-4">
-                <input type="text" id="comment_content{{ $publication->id_publication }}" class="form-control col-10 @error('comment_content' . $publication->id_publication) is-invalid @enderror" name="comment_content" required>{{ old('comment_content') }}
-                @error('comment_content')
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $message }}</strong>
-                    </span>
-                @enderror
-                <label for="files_{{ $publication->id_publication }}" class="btn btn-light col-2">
-                    <i class="fas fa-image fa-5x mr-2"></i>
-                </label>
-                <input type="file" id="files_{{ $publication->id_publication }}" name="comment_image[]" accept="image/*" multiple style="display: none;">
+                <div class="col-10">
+                    <input type="text" id="comment_content{{ $publication->id_publication }}"
+                        class="form-control @error('comment_content' . $publication->id_publication) is-invalid @enderror"
+                        name="comment_content" required>{{ old('comment_content') }}
+                    @error('comment_content')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="col-2">
+                    <label for="files_{{ $publication->id_publication }}" class="btn btn-light btn-block">
+                        <i class="fas fa-image fa-5x mr-2"></i>
+                    </label>
+                    <input type="file" id="files_{{ $publication->id_publication }}" name="comment_image[]"
+                        accept="image/*" multiple style="display: none;">
+                </div>
                 <div id="imagePreview_{{ $publication->id_publication }}"></div>
             </div>
             <script>

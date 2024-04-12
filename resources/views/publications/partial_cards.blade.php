@@ -32,17 +32,19 @@
                         <div class="row justify-content-center">
                             <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
                                 <div class="carousel-inner">
-                                    {{-- @foreach ($imageNames as $index => $imageName)
+                                    @foreach ($imageNames as $index => $imageName)
                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                             <img src="/publication/image/{{ $imageName }}" alt="Image">
                                         </div>
-                                    @endforeach --}}
+                                    @endforeach
                                 </div>
-                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <a class="carousel-control-prev" href="#carouselExampleControls" role="button"
+                                    data-slide="prev">
                                     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Previous</span>
                                 </a>
-                                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <a class="carousel-control-next" href="#carouselExampleControls" role="button"
+                                    data-slide="next">
                                     <span class="carousel-control-next-icon" aria-hidden="true"></span>
                                     <span class="sr-only">Next</span>
                                 </a>
@@ -60,14 +62,17 @@
             <div class="sticky-bottom" style="padding: 2% 5%">
                 <div class="row mt-5">
                     <div class="col-md-4 justify-content-start">
-                        <span class="mr-3"><strong><a class="nav-link p-0" href="{{ route('comment.index') }}">Comentarios({{ count($publication->comments) }})</a></strong></span>
+                        <span class="mr-3"><strong><a class="nav-link p-0"
+                                    href="{{ route('comment.index') }}">Comentarios({{ count($publication->comments) }})</a></strong></span>
                     </div>
                     @if (Auth::user()->id_user === $publication->user_public_id)
                         <div class="col-md-8 d-flex justify-content-end">
-                            <a href="/publication/destroy/{{ $publication->id_publication }}" class="btn btn-danger btn-action mr-3" data-toggle="tooltip" title="Eliminar">
+                            <a href="/publication/destroy/{{ $publication->id_publication }}"
+                                class="btn btn-danger btn-action mr-3" data-toggle="tooltip" title="Eliminar">
                                 <i class="fas fa-trash"></i>
                             </a>
-                            <a href="/edit/publication/{{ $publication->id_publication }}" class="btn btn-success btn-action" data-toggle="tooltip" title="Editar">
+                            <a href="/edit/publication/{{ $publication->id_publication }}"
+                                class="btn btn-success btn-action" data-toggle="tooltip" title="Editar">
                                 <i class="fas fa-edit"></i>
                             </a>
                         </div>
@@ -76,7 +81,8 @@
                         <div class="sticky-bottom">
                             <div class="row" style="margin-top: -4%; margin-bottom: 3%">
                                 <div class="col-md-12 d-flex justify-content-end">
-                                    <a href="/publication/destroy/{{ $publication->id_publication }}" class="btn btn-danger btn-action mr-3" data-toggle="tooltip" title="Eliminar">
+                                    <a href="/publication/destroy/{{ $publication->id_publication }}"
+                                        class="btn btn-danger btn-action mr-3" data-toggle="tooltip" title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </div>
@@ -92,30 +98,33 @@
                         <p>
                             <strong>{{ $comentario->user->user_name }}</strong>
                             <br>
-                            {{-- {{ $comentario->comment_content }}
+                            {{ $comentario->comment_content }}
                             @if ($comentario->comment_image)
-                                @php $images = json_decode($comentario->comment_image); @endphp
+                                {{-- @php $images = json_decode($comentario->comment_image); @endphp
                                 @foreach ($images as $image)
                                     <img src="{{ Storage::url('comment_image/' . $image) }}">
-                                @endforeach
-                            @endif --}}
+                                @endforeach --}}
+                            @endif
                         </p>
                         @if (Auth::user()->id_user === $comentario->user_comment_id)
                             <div class="d-flex justify-content-end">
                                 <!-- Botón para abrir el modal de edición -->
-                                <button type="button" class="btn btn-success btn-action mr-3" data-toggle="modal" data-target="#editCommentModal{{ $comentario->id }}">
+                                <button type="button" class="btn btn-success btn-action mr-3" data-toggle="modal"
+                                    data-target="#editCommentModal{{ $comentario->id_comment }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
                                 <!-- Formulario para eliminar comentario -->
                                 <form action="{{ route('comment.destroy', $comentario->id_comment) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-action" data-toggle="tooltip" title="Eliminar">
+                                    <button type="submit" class="btn btn-danger btn-action" data-toggle="tooltip"
+                                        title="Eliminar">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
                             </div>
                         @endif
+                        <hr>
                     @endforeach
                 @else
                     <p>No existen comentarios</p>
@@ -130,5 +139,5 @@
 
 <!-- Modal para editar comentarios -->
 @foreach ($comments[$publication->id_publication] as $comentario)
-@include('comments.edit')
+    @include('comments.edit')
 @endforeach
