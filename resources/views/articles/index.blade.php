@@ -87,7 +87,7 @@
                                         Autor: {{ $article->user->user_name ?? 'Usuario Desconocido' }}
                                         <br>
                                         Fecha: {{ Carbon\Carbon::parse($article->created_at)->format('d/m/Y') }} <br>
-                                        {{ Carbon\Carbon::parse($article->created_at)->diffForHumans(\Carbon\Carbon::now(), true) }}
+                                        Creado {{ $article->created_at->locale('es')->diffForHumans() }}
                                     </p>
                                 </li>
                             </ul>

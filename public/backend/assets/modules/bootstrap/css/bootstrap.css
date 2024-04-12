@@ -270,7 +270,7 @@ button,
 html [type="button"],
 [type="reset"],
 [type="submit"] {
-  -webkit-appearance: button;
+  -webkit-apparance: button;
 }
 
 button::-moz-focus-inner,
@@ -291,7 +291,7 @@ input[type="date"],
 input[type="time"],
 input[type="datetime-local"],
 input[type="month"] {
-  -webkit-appearance: listbox;
+  -webkit-apparance: listbox;
 }
 
 textarea {
@@ -329,7 +329,7 @@ progress {
 
 [type="search"] {
   outline-offset: -2px;
-  -webkit-appearance: none;
+  -webkit-apparance: none;
 }
 
 [type="search"]::-webkit-search-cancel-button,
@@ -5335,7 +5335,7 @@ button.close {
   padding: 0;
   background-color: transparent;
   border: 0;
-  -webkit-appearance: none;
+  -webkit-apperance: none;
 }
 
 .modal-open {
@@ -5345,7 +5345,7 @@ button.close {
 .modal-open .modal {
   overflow-x: hidden;
   overflow-y: auto;
-}
+} 
 
 .modal {
   position: fixed;

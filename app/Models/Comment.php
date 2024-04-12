@@ -16,6 +16,7 @@ class Comment extends Model
         'user_comment_id',
         'public_comment_id',
         'comment_content',
+        'comment_image',
     ];
 
     public function user()
