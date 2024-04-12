@@ -10,7 +10,7 @@
         <a href="features-profile.html" class="dropdown-item has-icon">
             <i class="far fa-user"></i> Perfil
         </a>
-        <a href="features-activities.html" class="dropdown-item has-icon">
+        <a href="/show/publication/{{ Auth::user()->id_user }}" class="dropdown-item has-icon">
             <i class="fas fa-bolt"></i> Mis publicaciones
         </a>
         <a href="/user/edit/{{ Auth::user()->id_user }}" class="dropdown-item has-icon">

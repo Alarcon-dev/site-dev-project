@@ -21,11 +21,9 @@ class CommentController extends Controller
         return view('comments.index', compact('comments'));
     }
 
-
-
     public function create()
     {
-        // return view('comments.create'); 
+        //
     }
 
     public function store(Request $request)
@@ -36,7 +34,7 @@ class CommentController extends Controller
         ]);
 
         $commentContent = $request->input('comment_content');
-        $comment_images = []; // Renombrado de $comment_image a $comment_images
+        $comment_images = [];
 
         if ($request->hasFile('comment_image')) {
             foreach ($request->file('comment_image') as $image) {
@@ -48,12 +46,11 @@ class CommentController extends Controller
             }
         }
 
-        // Crear el comentario en la base de datos con el contenido y las imágenes almacenadas
         $comment = Comment::create([
             'user_comment_id' => Auth::user()->id_user,
             'public_comment_id' => $request->publication_id,
             'comment_content' => $commentContent,
-            'comment_image' => json_encode($comment_images), // Almacenar las imágenes como un JSON
+            'comment_image' => json_encode($comment_images),
         ]); 
 
         if ($comment) {
@@ -70,15 +67,42 @@ class CommentController extends Controller
         return view('comments.show', compact('comment'));
     }
 
-    public function edit()
+    public function edit(string $id)
     {
+        $comment = Comment::find($id);
+        return view('comments.edit', compact('comment'));
     }
 
-    public function update()
+    public function update(Request $request, string $id)
     {
+        $request->validate([
+            'comment_content' => ['required', 'string', 'max:600'],
+            'comment_image.*' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048']
+        ]);
+
+        $comment = Comment::findOrFail($id);
+
+        $comment->comment_content = $request->input('comment_content');
+
+        if ($request->hasFile('comment_image')) {
+            $comment_images = [];
+            foreach ($request->file('comment_image') as $image) {
+                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->storeAs('comment_image', $imageName);
+                $comment_images[] = $imageName;
+            }
+            $comment->comment_image = json_encode($comment_images);
+        }
+        $comment->save();
+
+        return redirect()->route('home', $id)->with('success', 'El comentario ha sido actualizado');
     }
 
-    public function destroy()
+    public function destroy(string $id)
     {
+        $comment = Comment::findOrFail($id);
+        $comment->delete();
+
+        return redirect()->route('home')->with('success', 'El comentario ha sido eliminado');
     }
 }

@@ -2,7 +2,7 @@
 
 var statistics_chart = document.getElementById("myChart").getContext('2d');
 
-var myChart = new Chart(statistics_chart, {
+var myChart = new myChart(statistics_chart, {
   type: 'line',
   data: {
     labels: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
