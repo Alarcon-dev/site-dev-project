@@ -62,3 +62,7 @@ Route::controller(PublicationController::class)->group(function () {
 Route::resource('/article', ArticleController::class);
 
 Route::resource('/comment', CommentController::class);
+
+route::controller(CommentController::class)->group(function (){
+    Route::get('/comment/image/{comment_image}', 'getImageComment');
+});

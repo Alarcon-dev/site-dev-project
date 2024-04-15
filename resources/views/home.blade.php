@@ -1,6 +1,7 @@
 @extends('layouts.master')
 @section('content')
-    <div class="section">
+
+    {{-- <div class="section"> --}}
         @include('includes.alerts')
 
         @if (Auth::user() !== null && $publications->count() > 0)
@@ -18,5 +19,5 @@
                 </div>
             </div>
         @endif
-    </div>
+    {{-- </div> --}}
 @endsection

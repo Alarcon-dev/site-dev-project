@@ -1,6 +1,5 @@
 <div class="row justify-content-center">
     <div class="col-12 col-md-6 col-lg-10">
-
         <div class="card card-publication mb-3 shadow" style="margin-top: 3%">
             <div class="card-header mt-3 mb-3">
                 <div class="col_md_6">
@@ -99,21 +98,22 @@
                             <strong>{{ $comentario->user->user_name }}</strong>
                             <br>
                             {{ $comentario->comment_content }}
+                            @php  $images = json_decode($comentario->comment_image);
+                            @endphp
                             @if ($comentario->comment_image)
-                                {{-- @php $images = json_decode($comentario->comment_image); @endphp
                                 @foreach ($images as $image)
-                                    <img src="{{ Storage::url('comment_image/' . $image) }}">
-                                @endforeach --}}
+                                    <img src="/comment/image/{{$image}}">
+                                @endforeach
                             @endif
+                            
                         </p>
                         @if (Auth::user()->id_user === $comentario->user_comment_id)
                             <div class="d-flex justify-content-end">
                                 <!-- Botón para abrir el modal de edición -->
-                                <button type="button" class="btn btn-success btn-action mr-3" data-toggle="modal"
-                                    data-target="#editCommentModal{{ $comentario->id_comment }}">
+                                <button type="button" class="btn btn-success btn-action mr-3" data-bs-toggle="modal"
+                                    data-bs-target="#editCommentModal{{ $comentario->id_comment }}">
                                     <i class="fas fa-edit"></i>
                                 </button>
-                                <!-- Formulario para eliminar comentario -->
                                 <form action="{{ route('comment.destroy', $comentario->id_comment) }}" method="POST">
                                     @csrf
                                     @method('DELETE')
@@ -137,7 +137,39 @@
     </div>
 </div>
 
-<!-- Modal para editar comentarios -->
 @foreach ($comments[$publication->id_publication] as $comentario)
-    @include('comments.edit')
+    <div class="modal fade" id="editCommentModal{{ $comentario->id_comment }}" tabindex="-1" role="dialog" aria-labelledby="editCommentModalLabel{{ $comentario->id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editCommentModalLabel{{ $comentario->id_comment }}">Editar Comentario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>    
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ route('comment.update', $comentario->id_comment) }}"
+                    enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <div class="form-group">
+                        <label for="comment_content">Contenido del Comentario</label>
+                        <textarea class="form-control" id="comment_content" name="comment_content" rows="3">{{ $comentario->comment_content }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment_image">Imágenes</label>
+                        <input type="file" class="form-control-file" id="comment_image" name="comment_image[]"
+                            multiple>
+                        <small class="form-text text-muted">Puedes subir varias imágenes.</small>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Actualizar Comentario</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
 @endforeach

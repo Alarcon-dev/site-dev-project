@@ -1,4 +1,4 @@
-<div class="container" style="margin-right: -70%; margin-top: 8%">
+<div class="container" style="margin-right: -65%;">
     @include('includes.admin_profile')
 </div>
 

@@ -26,6 +26,11 @@ class CommentController extends Controller
         //
     }
 
+    public function getImageComment($image_Comment){
+        $comment_images= Storage::disk('comments')->get($image_Comment);
+        return Response($comment_images, 200);
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -38,11 +43,13 @@ class CommentController extends Controller
 
         if ($request->hasFile('comment_image')) {
             foreach ($request->file('comment_image') as $image) {
-                $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
-                // $image->storeAs('public/comment_image', $imageName);
-                $image->storeAs('comment_image', $imageName);
-                // Storage::disk('comments')->put($imageName, file_get_contents($image));
-                $comment_images[] = $imageName;
+                if ($image->isValid()){
+                    $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+                    Storage::disk('comments')->put($imageName, file_get_contents($image));
+                    $comment_images[] = $imageName;
+                }
+
+                // $image->storeAs('comments', $imageName);
             }
         }
 
