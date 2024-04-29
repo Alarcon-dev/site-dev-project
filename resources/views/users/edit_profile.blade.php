@@ -5,25 +5,21 @@
         <p class="section-lead">
             Aquí puedes cambiar la información pública de tu perfil.
         </p>
+        @include('includes.alerts')
         <div class="row mt-sm-4 d-flex">
-            @include('includes.alerts')
-            <div class="col-12 col-md-12 col-lg-5 float-left" style="margin-top: -3.3%">
-                <div class="card profile-widget" style="min-height: 88.5%">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="upload_file_update">
-                                <img src='{{ route('get.profile', ['image_name' => $user->user_image]) }}' alt="">
-                            </div>
-                        </div>
-                    </div>
+            <div class="col-12 col-md-12 col-lg-2 float-left">
+                <div class="card text-start">
+                    <img src="{{ route('get.profile', ['image_name' => $user->user_image]) }}" class="img-fluid"
+                        alt="...">
                 </div>
             </div>
-            <div class="col-12 col-md-12 col-lg-7 d-flex aling-content-start ">
+
+            <div class="col-12 col-md-12 col-lg-8 d-flex aling-content-start ">
                 <div class="card">
                     <form method="post" action="/update/user/{{ $user->id_user }}" enctype="multipart/form-data">
                         @csrf
 
-                        <div class="card-bodyfloat-left">
+                        <div class="card-body float-left">
                             <!-- Mueve aquí los elementos del primer formulario -->
                             <div class="row">
                                 <div class="card-header">

@@ -1,5 +1,5 @@
 <div class="row justify-content-center">
-    <div class="col-12 col-md-6 col-lg-10">
+    <div class="">
         <div class="card card-publication mb-3 shadow" style="margin-top: 3%">
             <div class="card-header mt-3 mb-3">
                 <div class="col_md_6">
@@ -33,7 +33,7 @@
                                 <div class="carousel-inner">
                                     @foreach ($imageNames as $index => $imageName)
                                         <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                            <img src="/publication/image/{{ $imageName }}" alt="Image">
+                                            <img src="/publication/image/{{ $imageName }}" class="img-fluid"alt="Image">
                                         </div>
                                     @endforeach
                                 </div>
@@ -98,14 +98,16 @@
                             <strong>{{ $comentario->user->user_name }}</strong>
                             <br>
                             {{ $comentario->comment_content }}
-                            @php  $images = json_decode($comentario->comment_image);
-                            @endphp
-                            @if ($comentario->comment_image)
-                                @foreach ($images as $image)
-                                    <img src="/comment/image/{{$image}}">
-                                @endforeach
-                            @endif
-                            
+                            <div>
+                                @php  $images = json_decode($comentario->comment_image);
+                                @endphp
+                                @if ($comentario->comment_image)
+                                    @foreach ($images as $image)
+                                        <img src="/comment/image/{{$image}}" class="img-fluid">
+                                    @endforeach
+                                @endif
+                            </div>
+
                         </p>
                         @if (Auth::user()->id_user === $comentario->user_comment_id)
                             <div class="d-flex justify-content-end">
@@ -166,7 +168,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Actualizar Comentario</button>
+                @method('UPDATE')
+                <button type="button" class="btn btn-primary">Actualizar Comentario</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             </div>
         </div>

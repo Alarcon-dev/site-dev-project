@@ -3,7 +3,7 @@
         <a href="{{ route('home') }}">SITE DEV</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
-        <a href="index.html">St</a>
+        <a href="{{ route('home') }}">St</a>
     </div>
     <ul class="sidebar-menu">
         <li class="menu-header text-align-center">PANEL DE USUARIO</li>
@@ -15,7 +15,7 @@
                 <li><a class="nav-link" href="/show/publication/{{ Auth::user()->id_user }}">Mis publicaciones</a></li>
             </ul>
         </li>
-        <li class="menu-header">Starter</li>
+        {{-- <li class="menu-header">Starter</li> --}}
 
         <li class="dropdown">
             <a href="" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-duotone fa-newspaper"></i>
@@ -25,7 +25,7 @@
             </ul>
         </li>
         
-        <li class="dropdown">
+        {{-- <li class="dropdown">
             <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                 <span>Layout</span></a>
             <ul class="dropdown-menu">
@@ -179,5 +179,5 @@
         <a href="https://getstisla.com/docs" class="btn btn-primary btn-lg btn-block btn-icon-split">
             <i class="fas fa-rocket"></i> Documentation
         </a>
-    </div>
+    </div> --}}
 </aside>
